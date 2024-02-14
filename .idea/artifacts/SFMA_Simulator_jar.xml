@@ -1,0 +1,9 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="SFMA_Simulator:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/SFMA_Simulator_jar</output-path>
+    <root id="archive" name="SFMA_Simulator.jar">
+      <element id="module-output" name="SFMA_Simulator" />
+      <element id="module-source" name="SFMA_Simulator" />
+    </root>
+  </artifact>
+</component>
