@@ -1,6 +1,6 @@
 /**
  * @author Oyindamola Taiwo-Olupeka 101155729
- * @version 1
+ * @version 1.0
  */
 public class Main {
     private static final int SIMULATION_TIME = 720; // 12 hours in minutes

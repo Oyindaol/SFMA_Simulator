@@ -1,6 +1,6 @@
 /**
  * @author Oyindamola Taiwo-Olupeka 101155729
- * @version 1
+ * @version 1.0
  */
 public class Passenger {
     private double arrivalTime;

@@ -2,7 +2,7 @@ import java.util.Random;
 
 /**
  * @author Oyindamola Taiwo-Olupeka 101155729
- * @version 1
+ * @version 1.0
  */
 public class PassengerArrival {
     private Random random;
