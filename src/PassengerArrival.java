@@ -2,10 +2,10 @@ import java.util.Random;
 
 /**
  * @author Oyindamola Taiwo-Olupeka 101155729
- * @version 1.0
+ * @version 2.0
  */
 public class PassengerArrival {
-    private Random random;
+    private static Random random;
 
     // Arrival time constants
     private final double minutesInHour = 60;
@@ -21,6 +21,8 @@ public class PassengerArrival {
     // Mean and variance for provincial passenger arrival time
     private final double provincialMeanArrivalTime = 75;
     private final double provincialVarianceArrivalTime = 50;
+    private final double minimumProvincialArrivalTime = 90; // Minimum minutes before flight (adjusted later)
+
 
 
     /**
@@ -36,7 +38,8 @@ public class PassengerArrival {
      * @return currentTime % commuterArrivalInterval == 0
      */
     public boolean isCommuter(double currentTime) {
-        return currentTime % commuterArrivalInterval == 0;
+        //return currentTime % commuterArrivalInterval == 0;
+        return random.nextBoolean();
     }
 
     /**
@@ -47,6 +50,30 @@ public class PassengerArrival {
     public boolean isProvincial(double currentTime) {
         return currentTime % provincialArrivalInterval == 0;
     }
+
+    /**
+     * Decides if a commuter passenger is traveling in business class.
+     * This example method assigns a lower probability for commuters to be in business class.
+     *
+     * @return true if the passenger is in business class, false otherwise.
+     */
+    public boolean isCommuterBusinessClass() {
+        // Example: 10% chance for a commuter passenger to be in business class
+        //return random.nextDouble() < 0.1;
+        return false;
+    }
+
+    /**
+     * Decides if a provincial passenger is traveling in business class.
+     * This example method assigns a higher probability for provincials to be in business class.
+     *
+     * @return true if the passenger is in business class, false otherwise.
+     */
+    public boolean isProvincialBusinessClass() {
+        // Example: 30% chance for a provincial passenger to be in business class
+        return random.nextDouble() < 0.3;
+    }
+
 
     /**
      * Math function to return random exponential value.
@@ -68,28 +95,60 @@ public class PassengerArrival {
     }
 
     /**
-     * Generates the next passenger arrival time if commuter or provincial.
-     * @param isCommuter
-     * @return exponentialRandom(commuterArrivalRate), if commuter
-     * @return Math.max(normalRandom, 0), if provincial
+     * Generates the next passenger arrival time based on Poisson distribution for commuter and normal distribution for provincial.
+     * Ensures no duplicate arrival times (adjusted slightly for clarity).
+     *
+     * @param isCommuter True if commuter, False if provincial
+     * @return Next passenger arrival time in minutes
      */
     public double generateNextArrivalTime(boolean isCommuter) {
+        double arrivalTime;
         if (isCommuter) {
-            return exponentialRandom(commuterArrivalRate);
+            // Poisson distribution for commuter arrivals
+            arrivalTime = exponentialRandom(commuterArrivalRate);
         } else {
-            double normalRandom = normalRandom(provincialMeanArrivalTime, provincialVarianceArrivalTime);
-            return Math.max(normalRandom, 0);
+            // Provincial - normal distribution with minimum arrival time
+            do {
+                arrivalTime = Math.max(normalRandom(provincialMeanArrivalTime, provincialVarianceArrivalTime), minimumProvincialArrivalTime);
+            } while (arrivalTime <= 0); // Ensure arrival time isn't 0 (highly unlikely but possible)
         }
+        return arrivalTime * minutesInHour; // Convert to minutes
     }
 
-    public static void main(String[] args) {
-        PassengerArrival arrivalModule = new PassengerArrival();
-        boolean isCommuter = true;
-
-        for (int i = 0; i < 10; i++) {
-            double arrivalTime = arrivalModule.generateNextArrivalTime(isCommuter);
-            System.out.println("Passenger " + (i + 1) + " arrival time: " + arrivalTime);
+    /**
+     * Generates the number of bags a passenger carries using geometric distribution.
+     * Assigns the success bias based on the passenger type (commuter or provincial).
+     *
+     * @param isCommuter True if commuter, False if provincial
+     * @return Number of bags (0 or positive integer)
+     */
+    public int generateNumberOfBags(boolean isCommuter) {
+        double successBias;
+        if (isCommuter) {
+            successBias = 0.6; // 60% success bias for commuter passengers
+        } else {
+            successBias = 0.8; // 80% success bias for provincial passengers
         }
+        int numBags = 0;
+        while (random.nextDouble() > successBias) {
+            numBags++;
+        }
+        return numBags;
     }
+
+//    public static void main(String[] args) {
+//        PassengerArrival arrivalModule = new PassengerArrival();
+//
+//        for (int i = 0; i < 10; i++) {
+//            boolean isCommuter = random.nextBoolean();
+//            double arrivalTime = arrivalModule.generateNextArrivalTime(isCommuter);
+//            String passengerType = isCommuter ? "Commuter" : "Provincial";
+//            int numBags = arrivalModule.generateNumberOfBags(isCommuter);
+//            System.out.println("Passenger " + (i + 1) + " (" + passengerType + "):");
+//            System.out.println("  - Arrival Time: " + arrivalTime + " minutes");
+//            System.out.println("  - Number of Bags: " + numBags);
+//            System.out.println();
+//        }
+//    }
 
 }

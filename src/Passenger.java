@@ -1,11 +1,17 @@
 /**
  * @author Oyindamola Taiwo-Olupeka 101155729
- * @version 1.0
+ * @version 2.0
  */
 public class Passenger {
+    private int id;
     private double arrivalTime;
     private double checkInTime;
     private boolean isCommuter;
+    private boolean isBusinessClass;
+    private int numBags;
+
+    private static int passengerCount = 1; // Counter for assigning unique IDs
+
 
     /**
      * Passenger class constructor.
@@ -14,11 +20,24 @@ public class Passenger {
      * @param currentTime
      * @param arrivalTime
      * @param isCommuter
+     * @param numBags
      */
-    public Passenger(double currentTime, double arrivalTime, boolean isCommuter) {
+    public Passenger(double currentTime, double arrivalTime, boolean isCommuter, boolean isBusinessClass, int numBags) {
+        this.id = passengerCount++; // Assign unique ID
         this.arrivalTime = currentTime;
         this.checkInTime = arrivalTime;
         this.isCommuter = isCommuter;
+        this.isBusinessClass = isBusinessClass;
+        this.numBags = numBags;
+    }
+
+    /**
+     * Returns Passenger ID.
+     *
+     * @return Passenger ID
+     */
+    public int getId() {
+        return id;
     }
 
     /**
@@ -52,6 +71,15 @@ public class Passenger {
      * @return false, if coach
      */
     public boolean isBusinessClass() {
-        return isBusinessClass();
+        return isBusinessClass;
+    }
+
+    /**
+     * Returns the number of bags the passenger carries.
+     *
+     * @return Number of bags
+     */
+    public int getNumberOfBags() {
+        return numBags;
     }
 }
