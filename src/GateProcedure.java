@@ -4,11 +4,18 @@ import java.util.Queue;
 /**
  * @author Oyindamola Taiwo-Olupeka 101155729
  * @version 2.0
+ *
+ * Manages the final stage before boarding, processing passengers based on their flight departure time, which is set
+ * according to their type (commuter or provincial) and the simulation time.
+ * Implements logic to ensure passengers make their flight based on their arrival time at the gate or wait for the next
+ * available flight.
  */
 public class GateProcedure {
     private Queue<Passenger> commuterQueue;
     private Queue<Passenger> provincialQueue;
     private double flightDepartureTime; // Simulated departure time
+    private double totalWaitingTime = 0;
+    private int waitingPassengerCount = 0;
 
 
     /**
@@ -20,7 +27,11 @@ public class GateProcedure {
     public GateProcedure(double flightDepartureTime) {
         commuterQueue = new LinkedList<>();
         provincialQueue = new LinkedList<>();
-        this.flightDepartureTime = flightDepartureTime;
+        this.flightDepartureTime = 0.1;
+    }
+
+    public double getAverageWaitingTime() {
+        return waitingPassengerCount > 0 ? totalWaitingTime / waitingPassengerCount : 0;
     }
 
     /**
@@ -39,7 +50,7 @@ public class GateProcedure {
             System.out.println("  - Gate Update: Missed the flight.");
             // Assuming automatic refund for early arrivals with missed flights
             if (arrivalTime >= flightDepartureTime - 210) { // 210 minutes before departure (3.5 hours)
-                System.out.println("      - Full refund issued due to airport congestion.");
+                System.out.println("  - Full refund issued due to airport congestion.");
             }
         }
     }
@@ -55,21 +66,19 @@ public class GateProcedure {
     }
 
     /**
-     * Simulate gate procedure process.
-     * @param queue
-     */
-    private void simulateGateProcedures(Queue<Passenger> queue) {
-        while (!queue.isEmpty()) {
-            Passenger currentPassenger = queue.poll();
-            // gate procedures ...
-        }
-    }
-
-    /**
      * Processes the passenger by dividing the queues to available counters.
      * @param passenger
      */
     public void processPassenger(Passenger passenger) {
+
+        // Assuming method to get the next flight departure time based on passenger type and current simulation time
+        double nextFlightTime = getNextFlightTime(passenger.isCommuter(), passenger.getArrivalTime());
+        passenger.setFlightDepartureTime(nextFlightTime);
+
+        // Calculate waiting time as the difference between flight departure time and passenger arrival time
+        double waitingTime = nextFlightTime - passenger.getArrivalTime();
+        System.out.println("  - Waiting time: " + String.format("%.2f",waitingTime) + " minutes.");
+
         if (passenger.isCommuter()) {
             commuterQueue.offer(passenger);
             processCommuterPassenger(passenger);
@@ -77,6 +86,36 @@ public class GateProcedure {
             provincialQueue.offer(passenger);
             processProvincialPassenger(passenger);
         }
+
+        // Update the total waiting time and count of processed passengers
+        totalWaitingTime += waitingTime;
+        waitingPassengerCount++;
+    }
+
+    double getNextFlightTime(boolean isCommuter, double currentTime) {
+        double nextFlightTime;
+
+        if (isCommuter) {
+            // For commuter flights departing every hour on the half-hour
+            // Find the next half-hour mark after the current time
+            int hours = (int)currentTime / 60;
+            int minutes = (int)currentTime % 60;
+            if (minutes < 30) {
+                // The next flight is later in the same hour
+                nextFlightTime = hours * 60 + 30;
+            } else {
+                // The next flight is at the half-hour mark of the next hour
+                nextFlightTime = (hours + 1) * 60 + 30;
+            }
+        } else {
+            // For provincial flights departing every six hours (midnight, 6 am, noon, 6 pm)
+            // Calculate the number of six-hour blocks that have passed since midnight
+            int sixHourBlocks = (int)currentTime / (6 * 60);
+            nextFlightTime = (sixHourBlocks + 1) * (6 * 60);
+
+        }
+
+        return nextFlightTime;
     }
 
 }

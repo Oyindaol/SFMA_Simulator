@@ -1,6 +1,11 @@
 /**
  * @author Oyindamola Taiwo-Olupeka 101155729
  * @version 2.0
+ *
+ * Represents a passenger within the simulation, including attributes such as ID, arrival time, whether they are a
+ * commuter or provincial, class, and the number of bags.
+ * The constructor generates an arrival time for each passenger based on whether they are identified as a commuter or
+ * provincial by the `PassengerArrival` class.
  */
 public class Passenger {
     private int id;
@@ -9,9 +14,8 @@ public class Passenger {
     private boolean isCommuter;
     private boolean isBusinessClass;
     private int numBags;
-
     private static int passengerCount = 1; // Counter for assigning unique IDs
-
+    private double flightDepartureTime;
 
     /**
      * Passenger class constructor.
@@ -24,11 +28,14 @@ public class Passenger {
      */
     public Passenger(double currentTime, double arrivalTime, boolean isCommuter, boolean isBusinessClass, int numBags) {
         this.id = passengerCount++; // Assign unique ID
-        this.arrivalTime = currentTime;
+        //this.arrivalTime = currentTime;
         this.checkInTime = arrivalTime;
         this.isCommuter = isCommuter;
         this.isBusinessClass = isBusinessClass;
         this.numBags = numBags;
+
+        PassengerArrival arrivalGenerator = new PassengerArrival();
+        this.arrivalTime = arrivalGenerator.generateNextArrivalTime(isCommuter);
     }
 
     /**
@@ -81,5 +88,13 @@ public class Passenger {
      */
     public int getNumberOfBags() {
         return numBags;
+    }
+
+    public void setFlightDepartureTime(double flightDepartureTime) {
+        this.flightDepartureTime = flightDepartureTime;
+    }
+
+    public double getFlightDepartureTime() {
+        return flightDepartureTime;
     }
 }

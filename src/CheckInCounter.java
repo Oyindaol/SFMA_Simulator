@@ -5,25 +5,34 @@ import java.util.Random;
 /**
  * @author Oyindamola Taiwo-Olupeka 101155729
  * @version 2.0
+ *
+ * Simulates the check-in process for passengers, divided between business class and coach queues.
+ * Generates service times for activities such as printing boarding passes and checking bags, using an exponential
+ * distribution to simulate the variability of service times.
  */
 public class CheckInCounter {
-    private Queue<Passenger> businessClassQueue;
-    private Queue<Passenger> coachQueue;
+    Queue<Passenger> businessClassQueue;
+    Queue<Passenger> coachQueue;
     private Random random;
-    private final int numBusinessCounters = 1;
-    private final int numCoachCounters = 3;
-    private final double serviceTimePrintBoardingPass = 2.0; // Minutes
-    private final double serviceTimeCheckBag = 1.0; // Minutes per bag
+    private double totalCheckInTime = 0;
+    private int checkInPassengerCount = 0;
+
+    private int numBusinessCounters; // Adjusted to be set via constructor
+    private int numCoachCounters; // Adjusted to be set via constructor
+    final double serviceTimePrintBoardingPass = 2.0; // Minutes
+    final double serviceTimeCheckBag = 1.0; // Minutes per bag
 
 
     /**
      * CheckInCounter class constructor.
      * Initializes the queues for both business class and coach.
      */
-    public CheckInCounter() {
+    public CheckInCounter(int numBusinessCounters, int numCoachCounters) {
         businessClassQueue = new LinkedList<>();
         coachQueue = new LinkedList<>();
         random = new Random();
+        this.numBusinessCounters = numBusinessCounters;
+        this.numCoachCounters = numCoachCounters;
     }
 
     /**
@@ -31,22 +40,12 @@ public class CheckInCounter {
      * @param avgServiceTime Average service time for the activity
      * @return Service time in minutes
      */
-    private double generateServiceTime(double avgServiceTime) {
+    double generateServiceTime(double avgServiceTime) {
         return -Math.log(random.nextDouble()) * avgServiceTime;
     }
 
-    /**
-     * Simulate the check-in process.
-     * @param queue
-     * @param numCounters
-     */
-    private void simulateCheckInOperations(Queue<Passenger> queue, int numCounters) {
-        for (int i = 0; i < numCounters; i++) {
-            if (!queue.isEmpty()) {
-                Passenger currentPassenger = queue.poll();
-                // check-in operations ...
-            }
-        }
+    public double getAverageCheckInTime() {
+        return checkInPassengerCount > 0 ? totalCheckInTime / checkInPassengerCount : 0;
     }
 
     /**
@@ -88,12 +87,13 @@ public class CheckInCounter {
         totalServiceTime += generateServiceTime(3.0); // Other problems and delays
         String classType = passenger.isBusinessClass() ? "Business" : "Coach";
 
-        // Simulate waiting time (placeholder, needs integration with simulation loop)
-        double waitingTime = 0; // Replace with actual waiting time calculation from simulation loop
+        totalCheckInTime += totalServiceTime; // Add the service time for the current passenger
+        checkInPassengerCount++; // Increment the count of processed passengers
+
         System.out.println("Passenger " + passenger.getId() + " (" + (passenger.isCommuter() ? "Commuter" : "Provincial") + "):");
         System.out.println("Passenger " + passenger.getId() + " (" + classType + "): Processing at Check-In");
+        //System.out.println("  - Arrival Time at Airport: " + String.format("%.2f",passenger.getArrivalTime()) + " minutes");
         System.out.println("  - Number of Bags: " + numBags);
-        System.out.println("  - Waiting Time: " + waitingTime + " minutes");
         System.out.println("  - Check in Time: " + String.format("%.2f", totalServiceTime) + " minutes");
 
     }

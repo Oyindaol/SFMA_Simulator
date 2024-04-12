@@ -1,10 +1,46 @@
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 /**
  * @author Oyindamola Taiwo-Olupeka 101155729
  * @version 2.0
+ *
+ * Acts as the simulation's central controller.
+ * Initializes the simulation parameters, including simulation time and the number of check-in counters for business
+ * and coach classes.
+ *
+ * Within a loop that represents each minute of simulation time, it generates passengers based on certain probabilities,
+ * indicating whether they are commuter or provincial, their class (business or coach), and the number of bags they carry.
+ * Each passenger is then processed through the check-in counters, security screening, and gate procedure.
+ * Finally, it calculates the total revenue, costs, and profits from the operation.
  */
 public class Main {
+
+    static List<Passenger> processedPassengers = new ArrayList<>();
+
+    private static double calculateTotalRevenue(List<Passenger> passengers) {
+        double revenue = 0;
+        for (Passenger passenger : passengers) {
+            if (passenger.isCommuter()) {
+                revenue += 200; // Commuter ticket price
+            } else {
+                revenue += passenger.isBusinessClass() ? 1000 : 500; // Business or coach provincial ticket price
+            }
+        }
+        return revenue;
+    }
+
+    private static double calculateTotalCosts(List<Passenger> passengers, int simulationTimeHours) {
+        // Assuming an equal distribution of provincial and commuter flights
+        int numberOfProvincialFlights = simulationTimeHours / 6; // Every 6 hours
+        int numberOfCommuterFlights = simulationTimeHours; // Hourly flights
+
+        double flightOperationCosts = numberOfProvincialFlights * 12000 + numberOfCommuterFlights * 1500;
+        double checkInAgentCosts = simulationTimeHours * 35; // $35 per hour
+
+        return flightOperationCosts + checkInAgentCosts;
+    }
 
     public static void main(String[] args) {
 
@@ -15,11 +51,15 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
 
         // Prompt the user for simulation time and flight departure time
-        System.out.println("Enter simulation time in minutes (e.g., 720 for 12 hours): ");
+        System.out.println("Enter simulation time in minutes (e.g. 360 for 6 hours, 720 for 12 hours...): ");
         int SIMULATION_TIME = scanner.nextInt(); // Read simulation time from user
 
-        System.out.println("Enter flight departure time in minutes from simulation start (e.g., 480 for 8 hours into simulation): ");
-        double flightDepartureTime = scanner.nextDouble(); // Read flight departure time from user
+        System.out.println("Enter the number of business class check-in counters (minimum 1): ");
+        int numBusinessCounters = Math.max(scanner.nextInt(), 1); // Ensuring at least 1
+
+        System.out.println("Enter the number of coach class check-in counters (minimum 3, maximum 5): ");
+        int numCoachCounters = Math.min(Math.max(scanner.nextInt(), 3), 5); // Ensuring at least 3 and at most 5
+
 
         // Close the scanner
         scanner.close();
@@ -27,19 +67,12 @@ public class Main {
 
         // Initialize the simulation components with user inputs where necessary
         PassengerArrival arrival = new PassengerArrival();
-        CheckInCounter checkIn = new CheckInCounter();
+        CheckInCounter checkIn = new CheckInCounter(numBusinessCounters, numCoachCounters);
         SecurityScreening screening = new SecurityScreening();
-        GateProcedure gate = new GateProcedure(flightDepartureTime);
+        GateProcedure gate = new GateProcedure(0.1);
 
 
         for (int currentTime = 0; currentTime <= SIMULATION_TIME; currentTime++) {
-            // Randomly decide if the passenger is a commuter or not
-//            boolean isCommuter = arrival.isCommuter(currentTime); // Use the updated method
-//            double arrivalTime = arrival.generateNextArrivalTime(isCommuter);
-//            int numBags = arrival.generateNumberOfBags(isCommuter);
-//            boolean isBusinessClass = isCommuter ? arrival.isCommuterBusinessClass() : arrival.isProvincialBusinessClass();
-//
-//            Passenger passenger = new Passenger(currentTime, arrivalTime, isCommuter, isBusinessClass, numBags);
 
             boolean isCommuter = arrival.isCommuter(currentTime);
             double arrivalTime = arrival.generateNextArrivalTime(isCommuter);
@@ -57,7 +90,27 @@ public class Main {
             screening.processPassenger(passenger);
             gate.processPassenger(passenger);
             System.out.println();
+
+
         }
 
+        double totalRevenue = calculateTotalRevenue(processedPassengers);
+        double totalCosts = calculateTotalCosts(processedPassengers, SIMULATION_TIME);
+        double profits = totalRevenue - totalCosts;
+
+        System.out.println();
+        System.out.println("----------------------------------------------------------------------------------------\n");
+        System.out.println("----------------------------------------------------------------------------------------\n");
+
+
+        System.out.println("Profits: $" + String.format("%.2f",totalCosts));
+
+        System.out.println("Average Check-In Time: " + String.format("%.2f",checkIn.getAverageCheckInTime()) + " minutes");
+        System.out.println("Average Screening Time: " + String.format("%.2f",screening.getAverageScreeningTime()) + " minutes");
+        System.out.println("Average Waiting Time: " + String.format("%.2f",gate.getAverageWaitingTime()) + " minutes");
+
+
+        System.out.println();
+        System.out.printf("Thank you for using the Smiths Falls/Montague Airport Simulator.\n");
     }
 }

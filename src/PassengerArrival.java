@@ -3,12 +3,17 @@ import java.util.Random;
 /**
  * @author Oyindamola Taiwo-Olupeka 101155729
  * @version 2.0
+ *
+ * Generates the arrival time for passengers using either an exponential distribution (for commuter passengers) or a
+ * normal distribution (for provincial passengers), ensuring realistic variability in arrival times.
+ * Determines the classification of passengers (commuter or provincial) and whether they are in business class, with a
+ * higher probability set for provincial passengers being in business class.
  */
 public class PassengerArrival {
     private static Random random;
 
     // Arrival time constants
-    private final double minutesInHour = 60;
+    final double minutesInHour = 60;
     private final double commuterArrivalInterval = minutesInHour;
     private final double provincialArrivalInterval = 6 * minutesInHour;
 
@@ -21,7 +26,7 @@ public class PassengerArrival {
     // Mean and variance for provincial passenger arrival time
     private final double provincialMeanArrivalTime = 75;
     private final double provincialVarianceArrivalTime = 50;
-    private final double minimumProvincialArrivalTime = 90; // Minimum minutes before flight (adjusted later)
+    final double minimumProvincialArrivalTime = 90; // Minimum minutes before flight
 
 
 
@@ -71,7 +76,8 @@ public class PassengerArrival {
      */
     public boolean isProvincialBusinessClass() {
         // Example: 30% chance for a provincial passenger to be in business class
-        return random.nextDouble() < 0.3;
+        //return random.nextDouble() < 0.3;
+        return random.nextDouble() < 0.75;
     }
 
 
@@ -135,20 +141,4 @@ public class PassengerArrival {
         }
         return numBags;
     }
-
-//    public static void main(String[] args) {
-//        PassengerArrival arrivalModule = new PassengerArrival();
-//
-//        for (int i = 0; i < 10; i++) {
-//            boolean isCommuter = random.nextBoolean();
-//            double arrivalTime = arrivalModule.generateNextArrivalTime(isCommuter);
-//            String passengerType = isCommuter ? "Commuter" : "Provincial";
-//            int numBags = arrivalModule.generateNumberOfBags(isCommuter);
-//            System.out.println("Passenger " + (i + 1) + " (" + passengerType + "):");
-//            System.out.println("  - Arrival Time: " + arrivalTime + " minutes");
-//            System.out.println("  - Number of Bags: " + numBags);
-//            System.out.println();
-//        }
-//    }
-
 }
