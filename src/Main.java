@@ -3,9 +3,6 @@ import java.util.List;
 import java.util.Scanner;
 
 /**
- * @author Oyindamola Taiwo-Olupeka 101155729
- * @version 2.0
- *
  * Acts as the simulation's central controller.
  * Initializes the simulation parameters, including simulation time and the number of check-in counters for business
  * and coach classes.
@@ -14,11 +11,19 @@ import java.util.Scanner;
  * indicating whether they are commuter or provincial, their class (business or coach), and the number of bags they carry.
  * Each passenger is then processed through the check-in counters, security screening, and gate procedure.
  * Finally, it calculates the total revenue, costs, and profits from the operation.
+ *
+ * @author Oyindamola Taiwo-Olupeka 101155729
+ * @version 2.0
  */
 public class Main {
-
     static List<Passenger> processedPassengers = new ArrayList<>();
 
+    /**
+     * Calculates the total revenue generated from the operation based on ticket prices.
+     *
+     * @param passengers The list of processed passengers
+     * @return The total revenue
+     */
     private static double calculateTotalRevenue(List<Passenger> passengers) {
         double revenue = 0;
         for (Passenger passenger : passengers) {
@@ -31,6 +36,13 @@ public class Main {
         return revenue;
     }
 
+    /**
+     * Calculates the total costs incurred during the operation, including flight operation and check-in agent costs.
+     *
+     * @param passengers         The list of processed passengers
+     * @param simulationTimeHours The total simulation time in hours
+     * @return The total costs
+     */
     private static double calculateTotalCosts(List<Passenger> passengers, int simulationTimeHours) {
         // Assuming an equal distribution of provincial and commuter flights
         int numberOfProvincialFlights = simulationTimeHours / 6; // Every 6 hours

@@ -2,13 +2,13 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 /**
- * @author Oyindamola Taiwo-Olupeka 101155729
- * @version 2.0
- *
  * Manages the final stage before boarding, processing passengers based on their flight departure time, which is set
  * according to their type (commuter or provincial) and the simulation time.
  * Implements logic to ensure passengers make their flight based on their arrival time at the gate or wait for the next
  * available flight.
+ *
+ * @author Oyindamola Taiwo-Olupeka 101155729
+ * @version 2.0
  */
 public class GateProcedure {
     private Queue<Passenger> commuterQueue;
@@ -30,6 +30,11 @@ public class GateProcedure {
         this.flightDepartureTime = 0.1;
     }
 
+    /**
+     * Calculates the average waiting time per passenger.
+     *
+     * @return The average waiting time per passenger
+     */
     public double getAverageWaitingTime() {
         return waitingPassengerCount > 0 ? totalWaitingTime / waitingPassengerCount : 0;
     }
@@ -67,7 +72,8 @@ public class GateProcedure {
 
     /**
      * Processes the passenger by dividing the queues to available counters.
-     * @param passenger
+     *
+     * @param passenger The passenger object
      */
     public void processPassenger(Passenger passenger) {
 
@@ -92,6 +98,13 @@ public class GateProcedure {
         waitingPassengerCount++;
     }
 
+    /**
+     * Determines the next flight departure time based on the passenger's type and the current simulation time.
+     *
+     * @param isCommuter  True if the passenger is a commuter, False otherwise
+     * @param currentTime The current simulation time in minutes
+     * @return The next flight departure time in minutes
+     */
     double getNextFlightTime(boolean isCommuter, double currentTime) {
         double nextFlightTime;
 

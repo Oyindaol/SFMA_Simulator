@@ -3,12 +3,12 @@ import java.util.Queue;
 import java.util.Random;
 
 /**
- * @author Oyindamola Taiwo-Olupeka 101155729
- * @version 2.0
- *
  * Simulates the check-in process for passengers, divided between business class and coach queues.
  * Generates service times for activities such as printing boarding passes and checking bags, using an exponential
  * distribution to simulate the variability of service times.
+ *
+ * @author Oyindamola Taiwo-Olupeka 101155729
+ * @version 2.0
  */
 public class CheckInCounter {
     Queue<Passenger> businessClassQueue;
@@ -26,6 +26,9 @@ public class CheckInCounter {
     /**
      * CheckInCounter class constructor.
      * Initializes the queues for both business class and coach.
+     *
+     * @param numBusinessCounters Number of business class check-in counters
+     * @param numCoachCounters    Number of coach class check-in counters
      */
     public CheckInCounter(int numBusinessCounters, int numCoachCounters) {
         businessClassQueue = new LinkedList<>();
@@ -44,6 +47,11 @@ public class CheckInCounter {
         return -Math.log(random.nextDouble()) * avgServiceTime;
     }
 
+    /**
+     * Calculates the average check-in time per passenger.
+     *
+     * @return The average check-in time per passenger
+     */
     public double getAverageCheckInTime() {
         return checkInPassengerCount > 0 ? totalCheckInTime / checkInPassengerCount : 0;
     }

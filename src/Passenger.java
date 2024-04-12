@@ -1,11 +1,11 @@
 /**
- * @author Oyindamola Taiwo-Olupeka 101155729
- * @version 2.0
- *
  * Represents a passenger within the simulation, including attributes such as ID, arrival time, whether they are a
  * commuter or provincial, class, and the number of bags.
  * The constructor generates an arrival time for each passenger based on whether they are identified as a commuter or
  * provincial by the `PassengerArrival` class.
+ *
+ * @author Oyindamola Taiwo-Olupeka 101155729
+ * @version 2.0
  */
 public class Passenger {
     private int id;
@@ -90,10 +90,20 @@ public class Passenger {
         return numBags;
     }
 
+    /**
+     * Sets the flight departure time for the passenger.
+     *
+     * @param flightDepartureTime The flight departure time to be set
+     */
     public void setFlightDepartureTime(double flightDepartureTime) {
         this.flightDepartureTime = flightDepartureTime;
     }
 
+    /**
+     * Gets the flight departure time of the passenger.
+     *
+     * @return The flight departure time of the passenger
+     */
     public double getFlightDepartureTime() {
         return flightDepartureTime;
     }

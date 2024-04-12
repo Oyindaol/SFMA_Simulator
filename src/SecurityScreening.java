@@ -3,12 +3,12 @@ import java.util.Queue;
 import java.util.Random;
 
 /**
- * @author Oyindamola Taiwo-Olupeka 101155729
- * @version 2.0
- *
  * Handles the security screening of passengers, again dividing them into business class and coach based on the number
  * of screening machines available for each.
  * Simulates the screening process by generating a random service time for each passenger.
+ *
+ * @author Oyindamola Taiwo-Olupeka 101155729
+ * @version 2.0
  */
 public class SecurityScreening {
 
@@ -32,14 +32,29 @@ public class SecurityScreening {
         random = new Random();
     }
 
+    /**
+     * Retrieves the queue for business class passengers.
+     *
+     * @return Queue of business class passengers
+     */
     public Queue<Passenger> getBusinessClassQueue() {
         return businessClassQueue;
     }
 
+    /**
+     * Retrieves the queue for coach class passengers.
+     *
+     * @return Queue of coach class passengers
+     */
     public Queue<Passenger> getCoachQueue() {
         return coachQueue;
     }
 
+    /**
+     * Calculates the average screening time per passenger.
+     *
+     * @return The average screening time per passenger
+     */
     public double getAverageScreeningTime() {
         return screeningPassengerCount > 0 ? totalScreeningTime / screeningPassengerCount : 0;
     }
@@ -53,13 +68,20 @@ public class SecurityScreening {
         return generateExponentialServiceTime(averageScreeningTime);
     }
 
+    /**
+     * Generates a random service time based on exponential distribution with the given average.
+     *
+     * @param averageServiceTime Average service time for the screening process
+     * @return Random service time in minutes
+     */
     public double generateExponentialServiceTime(double averageServiceTime) {
         return -Math.log(random.nextDouble()) * averageServiceTime;
     }
 
     /**
-     * Simulates security screening process for a single machine.
-     * @param queue
+     * Simulates the security screening process for a single machine.
+     *
+     * @param queue The queue of passengers to be screened
      */
     public void simulateSecurityScreening(Queue<Passenger> queue) {
         if (!queue.isEmpty()) {
@@ -70,8 +92,9 @@ public class SecurityScreening {
     }
 
     /**
-     * Processes the passenger by dividing the queues to available machines.
-     * @param passenger
+     * Processes the passenger by assigning them to available screening machines.
+     *
+     * @param passenger The passenger to process
      */
     public void processPassenger(Passenger passenger) {
         Queue<Passenger> queue;

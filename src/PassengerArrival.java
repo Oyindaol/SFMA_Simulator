@@ -1,13 +1,13 @@
 import java.util.Random;
 
 /**
- * @author Oyindamola Taiwo-Olupeka 101155729
- * @version 2.0
- *
  * Generates the arrival time for passengers using either an exponential distribution (for commuter passengers) or a
  * normal distribution (for provincial passengers), ensuring realistic variability in arrival times.
  * Determines the classification of passengers (commuter or provincial) and whether they are in business class, with a
  * higher probability set for provincial passengers being in business class.
+ *
+ * @author Oyindamola Taiwo-Olupeka 101155729
+ * @version 2.0
  */
 public class PassengerArrival {
     private static Random random;
@@ -39,8 +39,8 @@ public class PassengerArrival {
 
     /**
      * Returns if passenger is commuter with their current time.
-     * @param currentTime
-     * @return currentTime % commuterArrivalInterval == 0
+     * @param currentTime The current time in the simulation
+     * @return true if the passenger is a commuter, false otherwise
      */
     public boolean isCommuter(double currentTime) {
         //return currentTime % commuterArrivalInterval == 0;
@@ -49,8 +49,8 @@ public class PassengerArrival {
 
     /**
      * Returns if passenger is provincial with their current time.
-     * @param currentTime
-     * @return currentTime % provincialArrivalInterval == 0
+     * @param currentTime The current time in the simulation
+     * @return true if the passenger is provincial, false otherwise
      */
     public boolean isProvincial(double currentTime) {
         return currentTime % provincialArrivalInterval == 0;
@@ -83,8 +83,9 @@ public class PassengerArrival {
 
     /**
      * Math function to return random exponential value.
-     * @param rate
-     * @return -Math.log(1 - random.nextDouble()) / rate
+     *
+     * @param rate The rate parameter for the exponential distribution
+     * @return A random exponential value
      */
     private double exponentialRandom(double rate) {
         return -Math.log(1 - random.nextDouble()) / rate;
@@ -92,9 +93,10 @@ public class PassengerArrival {
 
     /**
      * Math function to return random normal value.
-     * @param mean
-     * @param variance
-     * @return mean + random.nextGaussian() * Math.sqrt(variance)
+     *
+     * @param mean     The mean of the normal distribution
+     * @param variance The variance of the normal distribution
+     * @return A random normal value
      */
     private double normalRandom(double mean, double variance) {
         return mean + random.nextGaussian() * Math.sqrt(variance);
