@@ -70,10 +70,10 @@ public class Main {
         System.out.println("Enter simulation time in minutes (e.g. 720 for 12 hours, 1440 for 24 hours, 4320 for 3 days...): ");
         int SIMULATION_TIME = scanner.nextInt(); // Read simulation time from user
 
-        System.out.println("Enter the number of business class check-in counters (minimum 1): ");
+        System.out.println("Enter the number of business class counters (minimum 1): ");
         int numBusinessCounters = Math.max(scanner.nextInt(), 1); // Ensuring at least 1
 
-        System.out.println("Enter the number of coach class check-in counters (minimum 3, maximum 5): ");
+        System.out.println("Enter the number of coach class counters (minimum 3, maximum 5): ");
         int numCoachCounters = Math.min(Math.max(scanner.nextInt(), 3), 5); // Ensuring at least 3 and at most 5
 
 
@@ -119,7 +119,7 @@ public class Main {
         System.out.println("----------------------------------------------------------------------------------------\n");
 
 
-        System.out.println("Profits: $" + String.format("%.2f",totalCosts));
+        System.out.println("Profits: $" + String.format("%.2f",profits));
 
         System.out.println("Average Check-In Time: " + String.format("%.2f",checkIn.getAverageCheckInTime()) + " minutes");
         System.out.println("Average Screening Time: " + String.format("%.2f",screening.getAverageScreeningTime()) + " minutes");
