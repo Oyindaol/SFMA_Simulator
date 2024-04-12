@@ -9,14 +9,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="93ae3151-1eda-4241-80ba-99a40c5fc0e8" name="Changes" comment="Updated code and test classes">
+    <list default="true" id="93ae3151-1eda-4241-80ba-99a40c5fc0e8" name="Changes" comment="Updates to the Javadocs">
+      <change afterPath="$PROJECT_DIR$/SYSC 4005 Project - Sequence Diagram.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/CheckInCounter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/CheckInCounter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/GateProcedure.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GateProcedure.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Passenger.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Passenger.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/PassengerArrival.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/PassengerArrival.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/SecurityScreening.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/SecurityScreening.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -164,7 +161,14 @@
       <option name="project" value="LOCAL" />
       <updated>1712905601570</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="Updates to the Javadocs">
+      <created>1712939885556</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1712939885556</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -183,6 +187,7 @@
     <MESSAGE value="First Commit" />
     <MESSAGE value="Version 2 commit" />
     <MESSAGE value="Updated code and test classes" />
-    <option name="LAST_COMMIT_MESSAGE" value="Updated code and test classes" />
+    <MESSAGE value="Updates to the Javadocs" />
+    <option name="LAST_COMMIT_MESSAGE" value="Updates to the Javadocs" />
   </component>
 </project>

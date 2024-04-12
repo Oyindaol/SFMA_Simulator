@@ -55,15 +55,19 @@ public class Main {
     }
 
     public static void main(String[] args) {
+        System.out.println("----------------------------------------------------------------------------------------\n");
+        System.out.println("----------------------------------------------------------------------------------------\n");
+        System.out.printf("--------------Welcome to the Smiths Falls/Montague Airport Simulator--------------------\n");
+        System.out.println("----------------------------------------------------------------------------------------\n");
+        System.out.println("----------------------------------------------------------------------------------------\n");
 
-        System.out.printf("Welcome to the Smiths Falls/Montague Airport Simulator.\n");
         System.out.println();
 
         // Create a Scanner object for reading input
         Scanner scanner = new Scanner(System.in);
 
         // Prompt the user for simulation time and flight departure time
-        System.out.println("Enter simulation time in minutes (e.g. 360 for 6 hours, 720 for 12 hours...): ");
+        System.out.println("Enter simulation time in minutes (e.g. 720 for 12 hours, 1440 for 24 hours, 4320 for 3 days...): ");
         int SIMULATION_TIME = scanner.nextInt(); // Read simulation time from user
 
         System.out.println("Enter the number of business class check-in counters (minimum 1): ");
@@ -122,7 +126,12 @@ public class Main {
         System.out.println("Average Waiting Time: " + String.format("%.2f",gate.getAverageWaitingTime()) + " minutes");
 
 
-        System.out.println();
-        System.out.printf("Thank you for using the Smiths Falls/Montague Airport Simulator.\n");
+        System.out.println("----------------------------------------------------------------------------------------\n");
+        System.out.println("----------------------------------------------------------------------------------------\n");
+
+        System.out.printf("------------Thank you for using the Smiths Falls/Montague Airport Simulator-------------\n");
+        System.out.println("----------------------------------------------------------------------------------------\n");
+        System.out.println("----------------------------------------------------------------------------------------\n");
+
     }
 }

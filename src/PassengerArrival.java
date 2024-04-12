@@ -75,8 +75,6 @@ public class PassengerArrival {
      * @return true if the passenger is in business class, false otherwise.
      */
     public boolean isProvincialBusinessClass() {
-        // Example: 30% chance for a provincial passenger to be in business class
-        //return random.nextDouble() < 0.3;
         return random.nextDouble() < 0.75;
     }
 
@@ -103,7 +101,8 @@ public class PassengerArrival {
     }
 
     /**
-     * Generates the next passenger arrival time based on Poisson distribution for commuter and normal distribution for provincial.
+     * Generates the next passenger arrival time based on Poisson distribution
+     * for commuter and Normal distribution for provincial.
      * Ensures no duplicate arrival times (adjusted slightly for clarity).
      *
      * @param isCommuter True if commuter, False if provincial
@@ -117,7 +116,8 @@ public class PassengerArrival {
         } else {
             // Provincial - normal distribution with minimum arrival time
             do {
-                arrivalTime = Math.max(normalRandom(provincialMeanArrivalTime, provincialVarianceArrivalTime), minimumProvincialArrivalTime);
+                arrivalTime = Math.max(normalRandom(provincialMeanArrivalTime, provincialVarianceArrivalTime),
+                        minimumProvincialArrivalTime);
             } while (arrivalTime <= 0); // Ensure arrival time isn't 0 (highly unlikely but possible)
         }
         return arrivalTime * minutesInHour; // Convert to minutes
